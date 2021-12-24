@@ -1,0 +1,80 @@
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -7
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+
+W <- input
+x = z % 26
+Z = z / 26
+x = x - 7
+x = 0 if x == w else 1
+Z = z * (25 * x + 1) + (w + 3) * x
+
+If x == 0:
+	z = z / 26             -> remove last b26 digit from the number
+If x == 1:
+	z = z * 26 + (w + 3)   -> encode "w+3" in the number
+
+At the end: z / 26 == 0
+
+
+Check / offset
+13 3
+11 12
+15 9
+-6 12
+15 2
+-8 1
+-4 1
+15 13
+10 1
+11 6
+-11 2
+0 11
+-8 10
+-7 3
+
+Add in[0] + 3
+Add in[1] + 12
+Add in[2] + 9                # [0, 1, 2]
+Del -> in[3] == delval - 6   # [0, 1]
+Add in[4] + 2                # [0, 1, 4]
+Del -> in[5] == delval - 8   # [0, 1]
+Del -> in[6] == delval - 4   # [0]
+Add in[7] + 13               # [0, 7]
+Add in[8] + 1                # [0, 7, 8]
+Add in[9] + 6                # [0, 7, 8, 9]
+Del -> in[10] == delval - 11 # [0, 7, 8]
+Del -> in[11] == delval      # [0, 7]
+Del -> in[12] == delval - 8  # [0]
+Del -> in[13] == delval - 7  # []
+
+in[3] == in[2] + 3
+in[5] == in[4] - 6
+in[6] == in[1] + 8
+in[10] == in[9] - 5
+in[11] == in[8] + 1
+in[12] == in[7] + 5
+in[13] == in[0] - 4
+
+Part 1:
+9 1 6 9 9 3 9 4 8 9 4  9  9  5
+0 1 2 3 4 5 6 7 8 9 10 11 12 13
+
+Part 2:
+5 1 1 4 7 1 9 1 1 6 1  2  6  1
+0 1 2 3 4 5 6 7 8 9 10 11 12 13
